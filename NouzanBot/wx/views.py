@@ -21,9 +21,9 @@ def handle(request):
     elif request.method == 'POST':
         data = request.body
         print(data)
-        signature = request.POST.get('signature')
-        timestamp = request.POST.get('timestamp')
-        nonce = request.POST.get('nonce')
+        signature = request.environ.get('signature')
+        timestamp = request.environ.get('timestamp')
+        nonce = request.environ.get('nonce')
         if check_signature(signature, timestamp, nonce):
             return HttpResponse("success")
         else:
