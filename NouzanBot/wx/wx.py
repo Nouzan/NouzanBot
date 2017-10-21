@@ -50,5 +50,5 @@ class MsgHandler(xml.sax.ContentHandler):
 
 
 def receive(msg_xml):
-    msg_data = xml.sax.parseString(msg_xml, xml.sax.ContentHandler())
+    msg_data = xml.sax.parseString(msg_xml, MsgHandler())
     print(msg_data)
