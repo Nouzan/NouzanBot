@@ -48,7 +48,17 @@ class MsgHandler(xml.sax.ContentHandler):
         elif self.CurrentData == "Content":
             self.Content = content
 
+    def getDict(self):
+        msg_dict = {}
+        msg_dict['ToUserName'] = self.ToUserName
+        msg_dict['FromUserName'] = self.FromUserName
+        msg_dict['CreateTime'] = self.CreateTime
+        msg_dict['MsgType'] = self.MsgType
+        msg_dict['Content'] = self.Content
+
 
 def receive(msg_xml):
-    msg_data = xml.sax.parseString(msg_xml, MsgHandler())
+    msg_h = MsgHandler()
+    xml.sax.parseString(msg_xml, msg_h)
+    msg_data = msg_h.getDict()
     print(msg_data)
