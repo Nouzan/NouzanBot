@@ -15,9 +15,7 @@ def handle(request):
 
     info = [token, timestamp, nonce]
     info.sort()
-    sha1 = hashlib.sha1()
-    map(sha1.update, info)
-    hashcode = sha1.hexdigest()
+    hashcode = hashlib.sha1(info[0]+info[1]+info[2]).hexdigest()
     print("handle/GET func: hashcode, signature: ", hashcode, signature)
     if hashcode == signature:
         return HttpResponse(chostr)
