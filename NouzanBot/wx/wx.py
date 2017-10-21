@@ -74,4 +74,4 @@ def reply(toUserName, fromUserName, content):
 
 
 def showMsg(msg_dict):
-    print('用户('msg_dict['FromUserName'] + '):', msg_dict['Content'])
+    print('用户(' + msg_dict['FromUserName'] + '):', msg_dict['Content'])
