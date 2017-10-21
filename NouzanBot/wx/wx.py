@@ -55,6 +55,7 @@ class MsgHandler(xml.sax.ContentHandler):
         msg_dict['CreateTime'] = self.CreateTime
         msg_dict['MsgType'] = self.MsgType
         msg_dict['Content'] = self.Content
+        return msg_dict
 
 
 def receive(msg_xml):
