@@ -21,10 +21,10 @@ def handle(request):
     elif request.method == 'POST':
         data = request.body
         print(data)
-        signature = request.get('signature')
-        timestamp = request.get('timestamp')
-        nonce = request.get('nonce')
+        signature = request.POST.get('signature')
+        timestamp = request.POST.get('timestamp')
+        nonce = request.POST.get('nonce')
         if check_signature(signature, timestamp, nonce):
-            return HttpResponse("test")
+            return HttpResponse("success")
         else:
             return HttpResponse("")
