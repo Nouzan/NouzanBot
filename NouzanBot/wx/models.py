@@ -11,7 +11,7 @@ class WxUser(models.Model):
     last_received_time = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return self.pk
+        return str(self.pk)
 
 
 class WxMsg(models.Model):
