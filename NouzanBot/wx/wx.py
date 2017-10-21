@@ -52,8 +52,8 @@ def receive(msg_xml):
     xml.sax.parseString(msg_xml, msg_h)
     msg_dict = msg_h.getDict()
     showMsg(msg_dict)
-    toUser = WxUser.objects.get_or_create(userName=msg_dict['ToUserName'])
-    fromUser = WxUser.objects.get_or_create(userName=msg_dict['FromUserName'])
+    toUser = WxUser.objects.get_or_create(userName=msg_dict['ToUserName'])[0]
+    fromUser = WxUser.objects.get_or_create(userName=msg_dict['FromUserName'])[0]
     if msg_dict['MsgType'] == 'text':
         msg = WxTextMsg.objects.create(
             toUser=toUser,
