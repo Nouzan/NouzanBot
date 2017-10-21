@@ -22,11 +22,10 @@ def handle(request):
         msg_xml = request.body
         query_str = request.environ.get('QUERY_STRING')
         query_dict = query_str2dict(query_str)
-        receive(msg_xml)
         signature = query_dict.get('signature')
         timestamp = query_dict.get('timestamp')
         nonce = query_dict.get('nonce')
         if check_signature(signature, timestamp, nonce):
-            return HttpResponse("success")
+            return HttpResponse(receive(msg_xml))
         else:
             return HttpResponse("")

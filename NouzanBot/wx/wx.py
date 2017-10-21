@@ -1,5 +1,6 @@
 import hashlib
 import xml.sax
+import time
 from .token import TOKEN
 
 
@@ -44,5 +45,26 @@ class MsgHandler(xml.sax.ContentHandler):
 def receive(msg_xml):
     msg_h = MsgHandler()
     xml.sax.parseString(msg_xml, msg_h)
-    msg_data = msg_h.getDict()
-    print(msg_data)
+    msg_dict = msg_h.getDict()
+    print(msg_dict)
+    return reply(msg_dict['FromUserName'], msg_dict['ToUserName'], "您的消息我们已经收到。")
+
+
+def reply(toUserName, fromUserName, content):
+    msg_dict = {}
+    msg_dict['ToUserName'] = toUserName
+    msg_dict['FromUserName'] = fromUserName
+    msg_dict['CreateTime'] = int(time.time())
+    msg_dict['Content'] = content
+
+    XmlForm = """
+    <xml>
+    <ToUserName><![CDATA[{ToUserName}]]></ToUserName>
+    <FromUserName><![CDATA[{FromUserName}]]></FromUserName>
+    <CreateTime>{CreateTime}</CreateTime>
+    <MsgType><![CDATA[text]]></MsgType>
+    <Content><![CDATA[{Content}]]></Content>
+    </xml>
+    """
+
+    return XmlForm.format(**msg_dict)
