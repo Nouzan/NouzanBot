@@ -1,4 +1,5 @@
 import hashlib
+import pprint
 import xml.sax
 import time
 from .token import TOKEN
@@ -46,7 +47,7 @@ def receive(msg_xml):
     msg_h = MsgHandler()
     xml.sax.parseString(msg_xml, msg_h)
     msg_dict = msg_h.getDict()
-    print(msg_dict)
+    pprint.pprint(msg_dict)
     return reply(msg_dict['FromUserName'], msg_dict['ToUserName'], "您的消息我们已经收到。")
 
 
