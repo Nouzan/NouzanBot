@@ -35,13 +35,7 @@ class MsgHandler(xml.sax.ContentHandler):
         self.mapping[tag] = self.buffer
 
     def characters(self, content):
-        if self.currentTag == "Content":
-            if self.mapping['MsgType'] == 'text':
-                self.buffer += content
-            else:
-                self.buffer = "!!其他类型的Msg!!"
-        else:
-            self.buffer += content
+        self.buffer += content
 
     def getDict(self):
         return self.mapping
