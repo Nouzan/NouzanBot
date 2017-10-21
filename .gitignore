@@ -105,3 +105,9 @@ NouzanBot/NouzanBot/key.py
 
 #token
 NouzanBot/wx/token.py
+
+#migrations
+migrations/
+
+#database
+db.sqlite3

@@ -2,6 +2,7 @@ import hashlib
 import pprint
 import xml.sax
 import time
+from .models import WxUser, WxTextMsg
 from .token import TOKEN
 from . import bot
 
@@ -51,27 +52,23 @@ def receive(msg_xml):
     xml.sax.parseString(msg_xml, msg_h)
     msg_dict = msg_h.getDict()
     showMsg(msg_dict)
-    return reply(msg_dict['FromUserName'], msg_dict['ToUserName'], bot.run(msg_dict))
+    toUser = WxUser.objects.get_or_create(userName=msg_dict['ToUserName'])
+    fromUser = WxUser.objects.get_or_create(userName=msg_dict['FromUserName'])
+    if msg_dict['MsgType'] == 'text':
+        msg = WxTextMsg.objects.create(
+            toUser=toUser,
+            fromUser=fromUser,
+            createTime=msg_dict['CreateTime'],
+            msgType='text',
+            content=msg_dict['Content']
+        )
+    else:
+        msg = None
+    return reply(bot.run(msg))
 
 
-def reply(toUserName, fromUserName, content):
-    msg_dict = {}
-    msg_dict['ToUserName'] = toUserName
-    msg_dict['FromUserName'] = fromUserName
-    msg_dict['CreateTime'] = int(time.time())
-    msg_dict['Content'] = content
-
-    XmlForm = """
-    <xml>
-    <ToUserName><![CDATA[{ToUserName}]]></ToUserName>
-    <FromUserName><![CDATA[{FromUserName}]]></FromUserName>
-    <CreateTime>{CreateTime}</CreateTime>
-    <MsgType><![CDATA[text]]></MsgType>
-    <Content><![CDATA[{Content}]]></Content>
-    </xml>
-    """
-
-    return XmlForm.format(**msg_dict)
+def reply(msg):
+    return msg.getXml
 
 
 def showMsg(msg_dict):
