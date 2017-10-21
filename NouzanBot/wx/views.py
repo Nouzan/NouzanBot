@@ -24,10 +24,9 @@ def handle(request):
         query_dict = query_str2dict(query_str)
         print(msg_xml)
         print(query_dict)
-        signature = request.query_dict.get('signature')
-        timestamp = request.query_dict.get('timestamp')
-        nonce = request.query_dict.get('nonce')
-        print(request.environ)
+        signature = query_dict.get('signature')
+        timestamp = query_dict.get('timestamp')
+        nonce = query_dict.get('nonce')
         if check_signature(signature, timestamp, nonce):
             return HttpResponse("success")
         else:
