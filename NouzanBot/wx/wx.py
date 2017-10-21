@@ -6,11 +6,13 @@ from .token import TOKEN
 
 
 def check_signature(signature, timestamp, nonce):
+    if signature is None or timestamp is None or nonce is None:
+        return False
     info = [TOKEN, timestamp, nonce]
     info.sort()
     s = bytes(info[0] + info[1] + info[2], encoding='utf8')
     hashcode = hashlib.sha1(s).hexdigest()
-    print("check_signature: hashcode, signature:", hashcode, signature)
+    # print("check_signature: hashcode, signature:", hashcode, signature)
     return hashcode == signature
 
 
@@ -47,7 +49,7 @@ def receive(msg_xml):
     msg_h = MsgHandler()
     xml.sax.parseString(msg_xml, msg_h)
     msg_dict = msg_h.getDict()
-    pprint.pprint(msg_dict)
+    showMsg(msg_dict)
     return reply(msg_dict['FromUserName'], msg_dict['ToUserName'], "您的消息我们已经收到。")
 
 
@@ -69,3 +71,7 @@ def reply(toUserName, fromUserName, content):
     """
 
     return XmlForm.format(**msg_dict)
+
+
+def showMsg(msg_dict):
+    print(msg_dict['FromUserName'] + ':', msg_dict['Content'])
