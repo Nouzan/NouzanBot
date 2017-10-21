@@ -8,7 +8,7 @@ def run(msg):
         rep = WxTextMsg.objects.create(
             toUser=msg.fromUser,
             fromUser=msg.toUser,
-            createTime=int(timezone.now()),
+            createTime=int(timezone.now().timestamp()),
             msgType='text',
             content=msg.content
         )

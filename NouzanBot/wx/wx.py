@@ -1,7 +1,7 @@
 import hashlib
 import pprint
 import xml.sax
-import time
+from django.utils import timezone
 from .models import WxUser, WxTextMsg
 from .token import TOKEN
 from . import bot
@@ -58,7 +58,7 @@ def receive(msg_xml):
         msg = WxTextMsg.objects.create(
             toUser=toUser,
             fromUser=fromUser,
-            createTime=msg_dict['CreateTime'],
+            createTime=int(msg_dict['CreateTime']),
             msgType='text',
             content=msg_dict['Content']
         )
@@ -72,6 +72,5 @@ def reply(msg):
 
 
 def showMsg(msg_dict):
-    timeArray = time.localtime(int(msg_dict['CreateTime']))
-    otherStyleTime = time.strftime("%Y年%m月%d日 %H:%M:%S", timeArray)
-    print('*' + otherStyleTime + '*用户(' + msg_dict['FromUserName'] + '):', msg_dict['Content'])
+    create_time = timezone.datetime.fromstamp(int(msg_dict['createTime']))
+    print('*' + str(create_time) + '*用户(' + msg_dict['FromUserName'] + '):', msg_dict['Content'])
