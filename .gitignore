@@ -99,3 +99,9 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# key
+NouzanBot/NouzanBot/key.py
+
+#token
+NouzanBot/wx/token.py

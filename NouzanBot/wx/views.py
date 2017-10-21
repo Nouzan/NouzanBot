@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from .wx import check_signature
+from .wx import check_signature, query_str2dict
 
 
 @csrf_exempt
@@ -19,11 +19,14 @@ def handle(request):
         else:
             return HttpResponse("")
     elif request.method == 'POST':
-        data = request.body
-        print(data)
-        signature = request.environ.get('signature')
-        timestamp = request.environ.get('timestamp')
-        nonce = request.environ.get('nonce')
+        msg_xml = request.body
+        query_str = request.environ.get('QUERY_STRING')
+        query_dict = query_str2dict(query_str)
+        print(msg_xml)
+        print(query_dict)
+        signature = request.query_dict.get('signature')
+        timestamp = request.query_dict.get('timestamp')
+        nonce = request.query_dict.get('nonce')
         print(request.environ)
         if check_signature(signature, timestamp, nonce):
             return HttpResponse("success")

@@ -1,7 +1,5 @@
 import hashlib
-
-
-TOKEN = 'nouzan414'
+from .token import TOKEN
 
 
 def check_signature(signature, timestamp, nonce):
@@ -11,3 +9,12 @@ def check_signature(signature, timestamp, nonce):
     hashcode = hashlib.sha1(s).hexdigest()
     print("check_signature: hashcode, signature:", hashcode, signature)
     return hashcode == signature
+
+
+def query_str2dict(query_str):
+    strs = query_str.split('&')
+    str_dict = {}
+    for s in strs:
+        k, v = s.split('=')
+        str_dict[k] = v
+    return str_dict
