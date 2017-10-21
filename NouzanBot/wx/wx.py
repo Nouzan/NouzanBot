@@ -68,7 +68,7 @@ def receive(msg_xml):
 
 
 def reply(msg):
-    return msg.getXml
+    return msg.getXml()
 
 
 def showMsg(msg_dict):
