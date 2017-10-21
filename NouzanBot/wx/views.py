@@ -24,6 +24,7 @@ def handle(request):
         signature = request.environ.get('signature')
         timestamp = request.environ.get('timestamp')
         nonce = request.environ.get('nonce')
+        print(request.environ)
         if check_signature(signature, timestamp, nonce):
             return HttpResponse("success")
         else:
