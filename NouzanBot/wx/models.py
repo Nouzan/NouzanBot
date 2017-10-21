@@ -10,6 +10,9 @@ class WxUser(models.Model):
     created_time = models.DateTimeField(default=timezone.now)
     last_received_time = models.DateTimeField(default=timezone.now)
 
+    def __str__(self):
+        return self.pk
+
 
 class WxMsg(models.Model):
     toUser = models.ForeignKey(WxUser, on_delete=models.CASCADE, related_name='toUserName')
@@ -39,3 +42,6 @@ class WxTextMsg(WxMsg):
         msg['Content'] = self.content
 
         return self.XmlForm.format(**msg)
+
+    def __str__(self):
+        return ' '.join(str(self.toUser), 'to', str(self.fromUser), self.content)
