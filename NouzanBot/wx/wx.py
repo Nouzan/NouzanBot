@@ -23,39 +23,28 @@ def query_str2dict(query_str):
 
 class MsgHandler(xml.sax.ContentHandler):
     def __init__(self):
-        self.CurrentData = ""
-        self.ToUserName = ""
-        self.FromUserName = ""
-        self.CreateTime = ""
-        self.MsgType = ""
-        self.Content = ""
+        self.buffer = ""
+        self.currentTag = ""
+        self.mapping = {}
 
     def startElement(self, tag, attributes):
-        self.CurrentData = tag
+        self.buffer = ""
+        self.currentTag = tag
 
     def endElement(self, tag):
-        pass
+        self.mapping[tag] = self.buffer
 
     def characters(self, content):
-        if self.CurrentData == "ToUserName":
-            self.ToUserName = content
-        elif self.CurrentData == "FromUserName":
-            self.FromUserName = content
-        elif self.CurrentData == "CreateTime":
-            self.CreateTime = ""
-        elif self.CurrentData == "MsgType":
-            self.MsgType = content
-        elif self.CurrentData == "Content":
-            self.Content = content
+        if self.currentTag == "Content":
+            if mapping['MsgType'] == 'text':
+                self.buffer = content.encode("utf-8")
+            else:
+                self.buffer = "!!其他类型的Msg!!"
+        else:
+            self.buffer += content
 
     def getDict(self):
-        msg_dict = {}
-        msg_dict['ToUserName'] = self.ToUserName
-        msg_dict['FromUserName'] = self.FromUserName
-        msg_dict['CreateTime'] = self.CreateTime
-        msg_dict['MsgType'] = self.MsgType
-        msg_dict['Content'] = self.Content
-        return msg_dict
+        return self.mapping
 
 
 def receive(msg_xml):
