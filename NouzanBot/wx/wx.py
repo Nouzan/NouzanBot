@@ -3,6 +3,7 @@ import pprint
 import xml.sax
 import time
 from .token import TOKEN
+from . import bot
 
 
 def check_signature(signature, timestamp, nonce):
@@ -50,7 +51,7 @@ def receive(msg_xml):
     xml.sax.parseString(msg_xml, msg_h)
     msg_dict = msg_h.getDict()
     showMsg(msg_dict)
-    return reply(msg_dict['FromUserName'], msg_dict['ToUserName'], "您的消息我们已经收到。")
+    return reply(msg_dict['FromUserName'], msg_dict['ToUserName'], bot.run(msg_dict))
 
 
 def reply(toUserName, fromUserName, content):
