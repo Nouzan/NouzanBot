@@ -1,4 +1,5 @@
 import hashlib
+import xml.sax
 from .token import TOKEN
 
 
@@ -18,3 +19,36 @@ def query_str2dict(query_str):
         k, v = s.split('=')
         str_dict[k] = v
     return str_dict
+
+
+class MsgHandler(xml.sax.ContentHandler):
+    def __init__(self):
+        self.CurrentData = ""
+        self.ToUserName = ""
+        self.FromUserName = ""
+        self.CreateTime = ""
+        self.MsgType = ""
+        self.Content = ""
+
+    def startElement(self, tag, attributes):
+        self.CurrentData = tag
+
+    def endElement(self, tag):
+        pass
+
+    def characters(self, content):
+        if self.CurrentData == "ToUserName":
+            self.ToUserName = content
+        elif self.CurrentData == "FromUserName":
+            self.FromUserName = content
+        elif self.CurrentData == "CreateTime":
+            self.CreateTime = ""
+        elif self.CurrentData == "MsgType":
+            self.MsgType = content
+        elif self.CurrentData == "Content":
+            self.Content = content
+
+
+def receive(msg_xml):
+    msg_data = xml.sax.parseString(msg_xml, xml.sax.ContentHandler())
+    print(msg_data)

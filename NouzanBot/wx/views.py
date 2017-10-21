@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from .wx import check_signature, query_str2dict
+from .wx import check_signature, query_str2dict, receive
 
 
 @csrf_exempt
@@ -22,8 +22,7 @@ def handle(request):
         msg_xml = request.body
         query_str = request.environ.get('QUERY_STRING')
         query_dict = query_str2dict(query_str)
-        print(msg_xml)
-        print(query_dict)
+        receive(msg_xml)
         signature = query_dict.get('signature')
         timestamp = query_dict.get('timestamp')
         nonce = query_dict.get('nonce')
