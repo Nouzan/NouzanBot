@@ -72,5 +72,5 @@ def reply(msg):
 
 
 def showMsg(msg_dict):
-    create_time = timezone.datetime.fromstamp(int(msg_dict['createTime']))
+    create_time = timezone.datetime.fromtimestamp(int(msg_dict['createTime']))
     print('*' + str(create_time) + '*用户(' + msg_dict['FromUserName'] + '):', msg_dict['Content'])
