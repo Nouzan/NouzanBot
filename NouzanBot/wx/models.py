@@ -44,4 +44,4 @@ class WxTextMsg(WxMsg):
         return self.XmlForm.format(**msg)
 
     def __str__(self):
-        return ' '.join([str(self.toUser), 'to', str(self.fromUser), self.content])
+        return ' '.join([str(self.fromUser), 'to', str(self.toUser), self.content])
