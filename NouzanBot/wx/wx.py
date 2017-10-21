@@ -37,7 +37,7 @@ class MsgHandler(xml.sax.ContentHandler):
     def characters(self, content):
         if self.currentTag == "Content":
             if self.mapping['MsgType'] == 'text':
-                self.buffer = content.encode("utf-8")
+                self.buffer += content
             else:
                 self.buffer = "!!其他类型的Msg!!"
         else:
