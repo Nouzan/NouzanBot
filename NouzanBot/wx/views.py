@@ -21,13 +21,10 @@ def handle(request):
     elif request.method == 'POST':
         data = request.body
         print(data)
-        if len(data) == 0:
-            return HttpResponse("Hello, this is NouzanBot's handle. ")
-        signature = data.get('signature')
-        timestamp = data.get('timestamp')
-        nonce = data.get('nonce')
-        echostr = data.get('echostr')
+        signature = request.get('signature')
+        timestamp = request.get('timestamp')
+        nonce = request.get('nonce')
         if check_signature(signature, timestamp, nonce):
-            return HttpResponse(echostr)
+            return HttpResponse("test")
         else:
             return HttpResponse("")
