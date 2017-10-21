@@ -74,4 +74,6 @@ def reply(toUserName, fromUserName, content):
 
 
 def showMsg(msg_dict):
-    print('用户(' + msg_dict['FromUserName'] + '):', msg_dict['Content'])
+    timeArray = time.localtime(int(msg_dict['CreateTime']))
+    otherStyleTime = time.strftime("%Y年%m月%d日 %H:%M:%S", timeArray)
+    print('*' + otherStyleTime + '*用户(' + msg_dict['FromUserName'] + '):', msg_dict['Content'])
