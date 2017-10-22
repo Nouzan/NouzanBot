@@ -61,7 +61,7 @@ def run(msg):
             return validFlowSet.getNextFlow_or_Reply()
         else:
             flow = WxFlow.objects.create(
-                textMsg=self.textMsg,
+                textMsg=msg,
                 name='flow',
                 is_valid=True,
                 infoStr=msg.content,
