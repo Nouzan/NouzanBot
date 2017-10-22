@@ -110,4 +110,4 @@ NouzanBot/wx/token.py
 NouzanBot/wx/migrations/
 
 #database
-NouzanBot/db.sqlite3
+*.sqlite3
