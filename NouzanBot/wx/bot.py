@@ -96,7 +96,7 @@ class WxFlow(WxObject):
                             self.save()
                             return None
                     elif tag == '任务名称':
-                        flowBuffer = self.flowBuffer
+                        flowBuffer = self.wxflowbuffer
                         bufferJson = json.loads(flowBuffer.bufferJson)
                         bufferJson['name'] = info
                         flowBuffer.bufferJson = json.dumps(bufferJson)
@@ -105,7 +105,7 @@ class WxFlow(WxObject):
                         self.save()
                         return self.getNextFlow_or_Reply()
                     elif tag == '对象名称':
-                        flowBuffer = self.flowBuffer
+                        flowBuffer = self.wxflowbuffer
                         bufferJson = json.loads(flowBuffer.bufferJson)
                         bufferJson['itemName'] = info
                         flowBuffer.bufferJson = json.dumps(bufferJson)
@@ -114,7 +114,7 @@ class WxFlow(WxObject):
                         self.save()
                         return self.getNextFlow_or_Reply()
                     elif tag == '第一个属性名称':
-                        flowBuffer = self.flowBuffer
+                        flowBuffer = self.wxflowbuffer
                         bufferJson = json.loads(flowBuffer.bufferJson)
                         bufferJson['fieldName'] = [info]
                         flowBuffer.bufferJson = json.dumps(bufferJson)
@@ -123,7 +123,7 @@ class WxFlow(WxObject):
                         self.save()
                         return self.getNextFlow_or_Reply()
                     elif tag == '下一个属性名称':
-                        flowBuffer = self.flowBuffer
+                        flowBuffer = self.wxflowbuffer
                         bufferJson = json.loads(flowBuffer.bufferJson)
                         bufferJson['fieldName'] = bufferJson['fieldName'].append(info)
                         flowBuffer.bufferJson = json.dumps(bufferJson)
@@ -150,7 +150,7 @@ class WxFlow(WxObject):
 
 
 class WxFlowBuffer(models.Model):
-    flow = models.ForeignKey(
+    flow = models.OneToOneField(
         WxFlow,
         on_delete=models.CASCADE,
     )
