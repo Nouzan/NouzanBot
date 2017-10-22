@@ -23,7 +23,7 @@ class WxFlow(WxObject):
                         nextFlow.save()
                         self.is_valid = False
                         self.save()
-                        return nextFlow.getNextFlow()
+                        return nextFlow.getNextFlow_or_Reply()
                     elif info == 'repeat':
                         self.is_valid = False
                         self.save()
