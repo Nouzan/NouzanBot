@@ -9,7 +9,7 @@ class WxFlow(WxObject):
     def getNextFlow_or_Reply(self):
         if self.is_valid:
             infos = str(self.infoStr).strip().split(' ')
-            if name == 'flow':
+            if self.name == 'flow':
                 if infos != []:
                     info = infos.pop(0)
                     if info == 'add':
@@ -31,7 +31,7 @@ class WxFlow(WxObject):
                 else:
                     self.is_valid = False
                     return None
-            elif name == 'add-flow':
+            elif self.name == 'add-flow':
                 if infos != []:
                     info = infos.pop(0)
                     if info == 'test':
