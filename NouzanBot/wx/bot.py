@@ -128,6 +128,7 @@ class WxFlow(WxObject):
                             )
                         flowBuffer = self.wxflowbuffer
                         bufferJson = json.loads(flowBuffer.bufferJson)
+                        print(bufferJson)
                         bufferJson['fieldName'] = [info]
                         flowBuffer.bufferJson = json.dumps(bufferJson)
                         flowBuffer.save()
@@ -149,6 +150,7 @@ class WxFlow(WxObject):
                             )
                         flowBuffer = self.wxflowbuffer
                         bufferJson = json.loads(flowBuffer.bufferJson)
+                        print(bufferJson)
                         bufferJson['fieldName'] = bufferJson['fieldName'].append(info)
                         flowBuffer.bufferJson = json.dumps(bufferJson)
                         flowBuffer.save()
