@@ -11,7 +11,7 @@ class WxFlow(WxObject):
             infos = str(self.infoStr).strip().split(' ')
             print(infos)
             if self.name == 'flow':
-                if infos != []:
+                if infos != ['']:
                     info = infos.pop(0)
                     if info == 'add':
                         nextFlow = WxFlow.objects.create(
@@ -37,7 +37,7 @@ class WxFlow(WxObject):
                     self.save()
                     return None
             elif self.name == 'add-flow':
-                if infos != []:
+                if infos != ['']:
                     info = infos.pop(0)
                     if info == 'test':
                         self.is_valid = False
