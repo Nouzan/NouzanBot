@@ -62,13 +62,17 @@ def receive(msg_xml):
             msgType='text',
             content=msg_dict['Content']
         )
+        msg.save()
     else:
         msg = None
     return reply(bot.run(msg))
 
 
 def reply(msg):
-    return msg.getXml()
+    if msg is not None:
+        return msg.getXml()
+    else:
+        return ""
 
 
 def showMsg(msg_dict):

@@ -11,7 +11,10 @@ class WxUser(models.Model):
     last_received_time = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return str(self.pk)
+        if self.name is None or self.name == "":
+            return str(self.pk)
+        else:
+            return self.name
 
 
 class WxMsg(models.Model):
@@ -19,6 +22,9 @@ class WxMsg(models.Model):
     fromUser = models.ForeignKey(WxUser, on_delete=models.CASCADE, related_name='fromUserName')
     createTime = models.IntegerField()
     msgType = models.CharField(max_length=128)
+
+    def getCreateDateTime(self):
+        return timezone.datetime.fromtimestamp(self.createTime)
 
 
 class WxTextMsg(WxMsg):
@@ -44,4 +50,16 @@ class WxTextMsg(WxMsg):
         return self.XmlForm.format(**msg)
 
     def __str__(self):
-        return ' '.join([str(self.fromUser), 'to', str(self.toUser), self.content])
+        return ' '.join([self.getCreateDateTime(), str(self.fromUser), 'to', str(self.toUser), self.content])
+
+
+class WxObject(models.Model):
+    textMsg = models.ForeignKey(WxTextMsg, on_delete=models.CASCADE)
+    name = models.CharField(max_length=128, default='object')
+    is_valid = models.BooleanField(default=False)
+
+    def getFromUser(self):
+        return self.textMsg.fromUser
+
+    def getCreateDateTime(self):
+        return timezone.datetime.fromtimestamp(self.textMsg.createTime)
