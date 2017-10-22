@@ -150,7 +150,7 @@ class WxFlow(WxObject):
 
 
 class WxFlowBuffer(models.Model):
-    flow = models.OneToOneField(
+    flow = models.ForeignKey(
         WxFlow,
         on_delete=models.CASCADE,
     )
