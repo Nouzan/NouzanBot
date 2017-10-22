@@ -162,7 +162,7 @@ def run(msg):
         validFlowSet = WxFlow.objects.filter(is_valid=True, textMsg__fromUser=msg.fromUser)
         if validFlowSet.count() > 0:
             flow = validFlowSet[0]
-            flow.infoStr = msg.content
+            flow.infoStr = flow.infoStr + ' ' + msg.content
             flow.save()
             return flow.getNextFlow_or_Reply()
         else:
