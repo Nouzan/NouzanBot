@@ -66,6 +66,8 @@ def run(msg):
                 is_valid=True,
                 infoStr=msg.content,
             )
+            flow.save()
+            return flow.getNextFlow_or_Reply()
     else:
         return None
 
