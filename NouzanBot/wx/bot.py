@@ -89,7 +89,7 @@ class WxFlow(WxObject):
                             bufferJson = json.loads(flowBuffer.bufferJson)
                             return reply(
                                 self.textMsg,
-                                flowBuffer
+                                str(bufferJson)
                             )
                         else:
                             self.is_valid = False
@@ -133,7 +133,7 @@ class WxFlow(WxObject):
                             flowBuffer.save()
                             return reply(
                                 self.textMsg,
-                                flowBuffer
+                                str(bufferJson)
                             )
                         flowBuffer = self.wxflowbuffer
                         bufferJson = json.loads(flowBuffer.bufferJson)
