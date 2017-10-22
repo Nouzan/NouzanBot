@@ -58,7 +58,7 @@ def run(msg):
         if validFlowSet.count() > 0:
             validFlowSet[0].infoStr = msg.content
             validFlowSet[0].save()
-            return validFlowSet.getNextFlow_or_Reply()
+            return validFlowSet[0].getNextFlow_or_Reply()
         else:
             flow = WxFlow.objects.create(
                 textMsg=msg,
