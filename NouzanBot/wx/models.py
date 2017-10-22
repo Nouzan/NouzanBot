@@ -68,9 +68,10 @@ class WxObject(models.Model):
 class WxTask(WxObject):
     rank = models.IntegerField(default=0)
     order = models.IntegerField(default=0)
-    deadLine = models.DateTimeField(blank=True)
+    has_deadLine = models.BooleanField(default=False)
+    deadLine = models.DateTimeField(default=timezone.now)
     is_paused = models.BooleanField(default=False)
-    pausedTime = models.DateTimeField(blank=True)
+    pausedTime = models.DateTimeField(default=timezone.now)
 
 
 class WxCollectTask(WxTask):
