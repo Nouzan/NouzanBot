@@ -85,7 +85,7 @@ class WxFlow(WxObject):
                         if tag == '下一个属性名称':
                             self.is_valid = False
                             self.save()
-                            flowBuffer = self.flowBuffer
+                            flowBuffer = self.wxflowbuffer
                             bufferJson = json.loads(flowBuffer.bufferJson)
                             return reply(
                                 self.textMsg,
@@ -123,6 +123,18 @@ class WxFlow(WxObject):
                         self.save()
                         return self.getNextFlow_or_Reply()
                     elif tag == '下一个属性名称':
+                        if info.endswith('。') or info.endswith('.'):
+                            self.is_valid = False
+                            self.save()
+                            flowBuffer = self.wxflowbuffer
+                            bufferJson = json.loads(flowBuffer.bufferJson)
+                            bufferJson['fieldName'] = bufferJson['fieldName'].append(info[:-1])
+                            flowBuffer.bufferJson = json.dumps(bufferJson)
+                            flowBuffer.save()
+                            return reply(
+                                self.textMsg,
+                                flowBuffer
+                            )
                         flowBuffer = self.wxflowbuffer
                         bufferJson = json.loads(flowBuffer.bufferJson)
                         bufferJson['fieldName'] = bufferJson['fieldName'].append(info)
@@ -139,7 +151,7 @@ class WxFlow(WxObject):
                 else:
                     return reply(
                         self.textMsg,
-                        "请向我提供“收集任务”的"+ tag +"信息（输入句号表示取消添加）："
+                        "请向我提供“收集任务”的" + tag + "信息（输入句号表示取消添加）："
                     )
             else:
                 self.is_valid = False
