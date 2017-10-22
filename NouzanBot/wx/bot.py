@@ -15,7 +15,7 @@ class WxFlow(WxObject):
             infos = str(self.infoStr).strip().split(' ')
             print(infos)
             if self.name == 'flow':
-                if infos != [''] and info != []:
+                if infos != [''] and infos != []:
                     info = infos.pop(0)
                     if info == 'add' or info == '添加':
                         nextFlow = WxFlow.objects.create(
@@ -41,7 +41,7 @@ class WxFlow(WxObject):
                     self.save()
                     return None
             elif self.name == 'add-flow':
-                if infos != [''] and info != []:
+                if infos != [''] and infos != []:
                     info = infos.pop(0)
                     if info == '测试':
                         self.is_valid = False
@@ -79,7 +79,7 @@ class WxFlow(WxObject):
                     )
             elif self.name == 'collectTask-add-flow':
                 tag = infos.pop(0)
-                if infos != [''] and info != []:
+                if infos != [''] and infos != []:
                     info = infos.pop(0)
                     if info == '.' or info == '。':
                         if tag == '下一个属性名称':
