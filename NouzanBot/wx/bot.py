@@ -22,24 +22,30 @@ class WxFlow(WxObject):
                         )
                         nextFlow.save()
                         self.is_valid = False
+                        self.save()
                         return nextFlow.getNextFlow()
                     elif info == 'repeat':
                         self.is_valid = False
+                        self.save()
                         return reply(self.textMsg, ' '.join(infos))
                     else:
                         self.is_valid = False
+                        self.save()
                         return None
                 else:
                     self.is_valid = False
+                    self.save()
                     return None
             elif self.name == 'add-flow':
                 if infos != []:
                     info = infos.pop(0)
                     if info == 'test':
                         self.is_valid = False
+                        self.save()
                         return reply(self.textMsg, 'add-flow test')
                     else:
                         self.is_valid = False
+                        self.save()
                         return reply(self.textMsg, 'add-flow error')
                 else:
                     return reply(
@@ -48,6 +54,7 @@ class WxFlow(WxObject):
                     )
             else:
                 self.is_valid = False
+                self.save()
                 return None
         else:
             return None
