@@ -51,6 +51,19 @@ class WxFlow(WxObject):
                         self.is_valid = False
                         self.save()
                         return nextFlow.getNextFlow_or_Reply()
+                    elif info == 'say' or info == '群发':
+                        self.is_valid = False
+                        self.save()
+                        if self.textMsg.getFromUser.name != 'Nouzan':
+                            return None
+                        nextFlow = WxFlow.objects.create(
+                            textMsg=self.textMsg,
+                            name='say-flow',
+                            is_valid=True,
+                            infoStr=' '.join(infos),
+                        )
+                        nextFlow.save()
+                        return nextFlow.getNextFlow_or_Reply()
                     elif info == 'repeat' or info == '重复':
                         self.is_valid = False
                         self.save()
@@ -132,7 +145,24 @@ class WxFlow(WxObject):
                 else:
                     return reply(
                         self.textMsg,
-                        "请告诉我你想要添加的东西（输入句号表示取消查看）："
+                        "请告诉我你想要查看的东西（输入句号表示取消查看）："
+                    )
+            elif self.name == 'say-flow':
+                if infos != [''] and infos != []:
+                    info = infos.pop(0)
+                    if info == '.' or info == '。':
+                        self.is_valid = False
+                        self.save()
+                        return None
+                    else:
+                        return reply(
+                            self.textMsg,
+                            ' '.join([info] + infos)
+                        )
+                else:
+                    return reply(
+                        self.textMsg,
+                        "请告诉我你想要群发的东西（输入句号表示取消群发）："
                     )
             elif self.name == 'collectTask-add-flow':
                 tag = infos.pop(0)
