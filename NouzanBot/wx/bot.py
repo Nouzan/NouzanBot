@@ -9,7 +9,8 @@ def bufferJson2CollectTask(msg, bufferJson):
         textMsg=msg,
         name=bufferJson['name'],
         itemName=bufferJson['itemName'],
-        fieldName=json.dumps(bufferJson['fieldName'])
+        fieldName=json.dumps(bufferJson['fieldName']),
+        is_valid=True,
     )
     task.save()
     return "成功创建收集任务：" + task.name + "(id=" + str(task.pk) + ")"
@@ -32,6 +33,17 @@ class WxFlow(WxObject):
                         nextFlow = WxFlow.objects.create(
                             textMsg=self.textMsg,
                             name='add-flow',
+                            is_valid=True,
+                            infoStr=' '.join(infos),
+                        )
+                        nextFlow.save()
+                        self.is_valid = False
+                        self.save()
+                        return nextFlow.getNextFlow_or_Reply()
+                    elif info == 'show' or info == '查看':
+                        nextFlow = WxFlow.objects.create(
+                            textMsg=self.textMsg,
+                            name='show-flow',
                             is_valid=True,
                             infoStr=' '.join(infos),
                         )
@@ -82,6 +94,34 @@ class WxFlow(WxObject):
                         return reply(
                             self.textMsg,
                             "我并不知道你想添加些什么，请重新说（输入句号表示取消添加）："
+                        )
+                else:
+                    return reply(
+                        self.textMsg,
+                        "请告诉我你想要添加的东西（输入句号表示取消添加）："
+                    )
+            elif self.name == 'show-flow':
+                if infos != [''] and infos != []:
+                    info = infos.pop(0)
+                    if info == '收集任务':
+                        self.is_valid = False
+                        self.save()
+                        tasks = WxCollectTask.objects.filter(is_valid=True, textMsg__fromUser=self.msg.fromUser)
+                        taskStr_list = []
+                        for task in tasks:
+                            taskStr_list.append(str(task))
+                        return reply(
+                            self.textMsg,
+                            '\n'.join(taskStr_list)
+                            )
+                    elif info == '.' or info == '。':
+                        self.is_valid = False
+                        self.save()
+                        return None
+                    else:
+                        return reply(
+                            self.textMsg,
+                            "我并不知道你想查看些什么，请重新说（输入句号表示取消添加）："
                         )
                 else:
                     return reply(

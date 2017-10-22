@@ -77,3 +77,6 @@ class WxTask(WxObject):
 class WxCollectTask(WxTask):
     itemName = models.CharField(max_length=128)
     fieldName = models.CharField(max_length=512)
+
+    def __str__(self):
+        return self.name + "(id=" + str(self.pk) + ")"
