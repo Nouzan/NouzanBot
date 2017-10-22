@@ -106,7 +106,7 @@ class WxFlow(WxObject):
                     if info == '收集任务':
                         self.is_valid = False
                         self.save()
-                        tasks = WxCollectTask.objects.filter(is_valid=True, textMsg__fromUser=self.msg.fromUser)
+                        tasks = WxCollectTask.objects.filter(is_valid=True, textMsg__fromUser=self.textMsg.fromUser)
                         taskStr_list = []
                         for task in tasks:
                             taskStr_list.append(str(task))
@@ -121,12 +121,12 @@ class WxFlow(WxObject):
                     else:
                         return reply(
                             self.textMsg,
-                            "我并不知道你想查看些什么，请重新说（输入句号表示取消添加）："
+                            "我并不知道你想查看些什么，请重新说（输入句号表示取消查看）："
                         )
                 else:
                     return reply(
                         self.textMsg,
-                        "请告诉我你想要添加的东西（输入句号表示取消添加）："
+                        "请告诉我你想要添加的东西（输入句号表示取消查看）："
                     )
             elif self.name == 'collectTask-add-flow':
                 tag = infos.pop(0)
