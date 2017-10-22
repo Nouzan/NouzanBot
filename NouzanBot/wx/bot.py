@@ -114,6 +114,18 @@ class WxFlow(WxObject):
                         self.save()
                         return self.getNextFlow_or_Reply()
                     elif tag == '第一个属性名称':
+                        if info.endswith('。') or info.endswith('.'):
+                            self.is_valid = False
+                            self.save()
+                            flowBuffer = self.wxflowbuffer
+                            bufferJson = json.loads(flowBuffer.bufferJson)
+                            bufferJson['fieldName'] = [info[:-1]]
+                            flowBuffer.bufferJson = json.dumps(bufferJson)
+                            flowBuffer.save()
+                            return reply(
+                                self.textMsg,
+                                str(bufferJson)
+                            )
                         flowBuffer = self.wxflowbuffer
                         bufferJson = json.loads(flowBuffer.bufferJson)
                         bufferJson['fieldName'] = [info]
