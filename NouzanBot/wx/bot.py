@@ -1,7 +1,18 @@
-from .models import WxUser, WxTextMsg, WxObject
+from .models import WxUser, WxTextMsg, WxObject, WxCollectTask
 from django.db import models
 from django.utils import timezone
 import json
+
+
+def bufferJson2CollectTask(msg, bufferJson):
+    task = WxCollectTask.objects.create(
+        textMsg=msg,
+        name=bufferJson['name'],
+        itemName=bufferJson['itemName'],
+        fieldName=json.dumps(bufferJson['fieldName'])
+    )
+    task.save()
+    return "成功创建收集任务：" + task.name + "(id=" + str(task.pk) + ")"
 
 
 class WxFlow(WxObject):
@@ -89,7 +100,7 @@ class WxFlow(WxObject):
                             bufferJson = json.loads(flowBuffer.bufferJson)
                             return reply(
                                 self.textMsg,
-                                str(bufferJson)
+                                bufferJson2CollectTask(self.textMsg, bufferJson)
                             )
                         else:
                             self.is_valid = False
@@ -124,7 +135,7 @@ class WxFlow(WxObject):
                             flowBuffer.save()
                             return reply(
                                 self.textMsg,
-                                str(bufferJson)
+                                bufferJson2CollectTask(self.textMsg, bufferJson)
                             )
                         flowBuffer = self.wxflowbuffer
                         bufferJson = json.loads(flowBuffer.bufferJson)
@@ -145,7 +156,7 @@ class WxFlow(WxObject):
                             flowBuffer.save()
                             return reply(
                                 self.textMsg,
-                                str(bufferJson)
+                                bufferJson2CollectTask(self.textMsg, bufferJson)
                             )
                         flowBuffer = self.wxflowbuffer
                         bufferJson = json.loads(flowBuffer.bufferJson)

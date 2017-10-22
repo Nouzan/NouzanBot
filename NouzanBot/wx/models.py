@@ -63,3 +63,16 @@ class WxObject(models.Model):
 
     def getCreateDateTime(self):
         return timezone.datetime.fromtimestamp(self.textMsg.createTime)
+
+
+class WxTask(WxObject):
+    rank = models.IntegerField(default=0)
+    order = models.IntegerField(default=0)
+    deadLine = models.DateTimeField(blank=True)
+    is_paused = models.BooleanField(default=False)
+    pausedTime = models.DateTimeField(blank=True)
+
+
+class WxCollectTask(WxTask):
+    itemName = models.CharField(max_length=128)
+    fieldName = models.CharField(max_length=512)
