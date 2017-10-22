@@ -111,3 +111,4 @@ NouzanBot/wx/migrations/
 
 #database
 *.sqlite3
+NouzanBot/db.sqlite3
