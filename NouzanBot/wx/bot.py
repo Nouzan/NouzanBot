@@ -54,7 +54,7 @@ class WxFlow(WxObject):
                     elif info == 'say' or info == '群发':
                         self.is_valid = False
                         self.save()
-                        if self.textMsg.getFromUser.name != 'Nouzan':
+                        if self.getFromUser().name != 'Nouzan':
                             return None
                         nextFlow = WxFlow.objects.create(
                             textMsg=self.textMsg,
