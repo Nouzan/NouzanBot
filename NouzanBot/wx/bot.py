@@ -243,7 +243,10 @@ def run(msg):
         validFlowSet = WxFlow.objects.filter(is_valid=True, textMsg__fromUser=msg.fromUser)
         if validFlowSet.count() > 0:
             flow = validFlowSet[0]
-            flow.infoStr = flow.infoStr + ' ' + msg.content
+            preStr = ''
+            if flow.name == 'collectTask-add-flow':
+                preStr = flow.infoStr + ' '
+            flow.infoStr = preStr + msg.content
             flow.save()
             return flow.getNextFlow_or_Reply()
         else:
