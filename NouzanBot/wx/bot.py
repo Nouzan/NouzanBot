@@ -9,6 +9,7 @@ class WxFlow(WxObject):
     def getNextFlow_or_Reply(self):
         if self.is_valid:
             infos = str(self.infoStr).strip().split(' ')
+            print(infos)
             if self.name == 'flow':
                 if infos != []:
                     info = infos.pop(0)

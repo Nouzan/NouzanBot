@@ -50,7 +50,7 @@ class WxTextMsg(WxMsg):
         return self.XmlForm.format(**msg)
 
     def __str__(self):
-        return ' '.join([self.getCreateDateTime(), str(self.fromUser), 'to', str(self.toUser), self.content])
+        return ' '.join([str(self.getCreateDateTime()), str(self.fromUser), 'to', str(self.toUser), self.content])
 
 
 class WxObject(models.Model):
