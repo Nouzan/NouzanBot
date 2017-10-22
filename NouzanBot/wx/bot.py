@@ -108,11 +108,17 @@ class WxFlow(WxObject):
                         self.save()
                         tasks = WxCollectTask.objects.filter(is_valid=True, textMsg__fromUser=self.textMsg.fromUser)
                         taskStr_list = []
+                        i = 0
                         for task in tasks:
-                            taskStr_list.append(str(task))
+                            i += 1
+                            taskStr_list.append(str(i) + '. ' + str(task))
+                        if taskStr_list == []:
+                            repStr = "无收集任务"
+                        else:
+                            repStr = '\n'.join(taskStr_list)
                         return reply(
                             self.textMsg,
-                            '\n'.join(taskStr_list)
+                            repStr
                             )
                     elif info == '.' or info == '。':
                         self.is_valid = False
